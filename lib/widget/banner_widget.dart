@@ -12,9 +12,10 @@ class BannerItemWidget extends StatelessWidget {
       child: Card(
         elevation: 0,
         color: Colors.white,
-        child: Padding(
+        child:  
+        Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(item.imageUrl),
+          child: Image.asset(item.imageUrl)
         ),
       ),
     );

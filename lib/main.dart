@@ -46,27 +46,46 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              SizedBox(
-                height: 120,
-                child: ListView.builder(
+            SizedBox(
+              height: 100.0,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: TopBanner.items.length,
                   itemBuilder: (context, index) {
-                    return BannerItemWidget(item: TopBanner.items[index]);
-                    // Card(
-                    //   child: Container(
-                    //     color: Colors.white,
-                    //     child: Image.asset(TopBanner.items[index].imageUrl),
-                    //   ),
-                    // );
-                  },
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                ),
-              )
-            ]),
+                    return Card(
+                        child: Center(
+                      // height: 80,
+                      // color: Colors.white,
+                      child: Image.asset(TopBanner.items[index].imageUrl),
+                    ));
+                  }),
+            ),
+            // Row(mainAxisSize: MainAxisSize.min, children: [
+            //   SizedBox(
+            //     height: 100,
+            //     width: double.infinity,
+            //     child: ListView.builder(
+            //       itemCount: TopBanner.items.length,
+            //       itemBuilder: (context, index) {
+            //         return
+            //             BannerItemWidget(item: TopBanner.items[index]);
+            //             Card(
+            //               child: Container(
+            //                 height: 80,
+            //                 color: Colors.white,
+            //                 child: Image.asset(TopBanner.items[index].imageUrl),
+            //           ),
+            //         );
+            //       },
+            //       scrollDirection: Axis.horizontal,
+            //       shrinkWrap: true,
+            //     ),
+            //   )
+            // ]),
           ],
         ),
       ),
