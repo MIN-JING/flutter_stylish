@@ -141,7 +141,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (context, index) {
                     return Card(
                         child: Center(
-                      child: Text(clothes[index].name),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset(clothes[index].imageUrl),
+                          Column(mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(clothes[index].name),
+                            Text(clothes[index].price)
+                          ],)
+                          
+                        ],
+                      )
                     ));
                   }),
             ])
