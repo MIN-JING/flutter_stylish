@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/assesories.dart';
 import 'package:flutter_minjing_stylish/model/men_clothes.dart';
-import 'package:flutter_minjing_stylish/widget/banner_widget.dart';
 import 'package:flutter_minjing_stylish/model/banner.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_minjing_stylish/model/women_clothes.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Stylish",
           style: TextStyle(color: Colors.black),
         ),
@@ -83,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 100.0,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: TopBanner.items.length,
                   itemBuilder: (context, index) {
@@ -101,33 +97,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     appState.toggleCategory("男裝");
                   },
-                  child: Text(
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
+                  child: const Text(
                     "男裝",
                     style: TextStyle(color: Colors.black),
                   ),
-                  style: TextButton.styleFrom(backgroundColor: Colors.white),
                 ),
                 const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
                 TextButton(
                   onPressed: () {
                     appState.toggleCategory("女裝");
                   },
-                  child: Text(
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
+                  child: const Text(
                     "女裝",
                     style: TextStyle(color: Colors.black),
                   ),
-                  style: TextButton.styleFrom(backgroundColor: Colors.white),
                 ),
                 const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
                 TextButton(
                   onPressed: () {
                     appState.toggleCategory("配件");
                   },
-                  child: Text(
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
+                  child: const Text(
                     "配件",
                     style: TextStyle(color: Colors.black),
                   ),
-                  style: TextButton.styleFrom(backgroundColor: Colors.white),
                 ),
               ],
             ),
@@ -135,25 +131,25 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               ListView.builder(
                   scrollDirection: Axis.vertical,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: clothes.length,
                   itemBuilder: (context, index) {
                     return Card(
                         child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Image.asset(clothes[index].imageUrl),
-                          Column(mainAxisAlignment: MainAxisAlignment.start,
+                            child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(clothes[index].imageUrl),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(clothes[index].name),
                             Text(clothes[index].price)
-                          ],)
-                          
-                        ],
-                      )
-                    ));
+                          ],
+                        )
+                      ],
+                    )));
                   }),
             ])
           ],
