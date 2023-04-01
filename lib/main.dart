@@ -59,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
     var appState = context.watch<ClothesCategoryState>();
     var clothes = appState.clothes;
 
+    final mockBannerItems = generateMockBannerItems(20);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,9 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        // scrollDirection: Axis.horizontal,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
@@ -81,11 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: TopBanner.items.length,
+                  itemCount: mockBannerItems.length,
                   itemBuilder: (context, index) {
                     return Card(
                         child: Center(
-                      child: Image.asset(TopBanner.items[index].imageUrl),
+                      child: Image.asset(mockBannerItems[index].imageUrl),
                     ));
                   }),
             ),
@@ -135,21 +135,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   shrinkWrap: true,
                   itemCount: clothes.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                        child: Center(
-                            child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Image.asset(clothes[index].imageUrl),
-                        Column(
+                    return GestureDetector(
+                        onTap: () {
+                          print('Item $index clicked');
+                        },
+                        child: Card(
+                            child: Center(
+                                child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(clothes[index].name),
-                            Text(clothes[index].price)
+                            Image.asset(clothes[index].imageUrl),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(clothes[index].name),
+                                    Text(clothes[index].price)
+                                  ],
+                                )
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    )));
+                        ))));
                   }),
             ])
           ],

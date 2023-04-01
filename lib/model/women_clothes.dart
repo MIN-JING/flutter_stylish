@@ -1,12 +1,12 @@
 class WomenClothes {
   static final items = [
     ClothesItem(
-        id: 1,
+        id: 201,
         name: "女裝",
         imageUrl: "assets/images/bg_home_top.jfif",
         price: "NT\$ 300"),
     ClothesItem(
-        id: 2,
+        id: 202,
         name: "女裝",
         imageUrl: "assets/images/bg_home_top.jfif",
         price: "NT\$ 300"),
