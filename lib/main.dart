@@ -99,8 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       appState.toggleCategory(category);
                     },
                   )
-                : HomeMobile(
-                    clothes: appState.clothes,
+                : HomeWeb(
+                    menClothes: generateMockClothesItems(20, "男裝"),
+                    womenClothes: generateMockClothesItems(20, "女裝"),
+                    assesories: generateMockClothesItems(20, "配件"),
                     onButtonClicked: (category) {
                       appState.toggleCategory(category);
                     },
