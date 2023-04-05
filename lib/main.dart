@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   )
                 : HomeWeb(
+                    isMobile: isMobile,
                     menClothes: generateMockClothesItems(20, "男裝"),
                     womenClothes: generateMockClothesItems(20, "女裝"),
                     assesories: generateMockClothesItems(20, "配件"),

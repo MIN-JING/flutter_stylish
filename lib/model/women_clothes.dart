@@ -11,6 +11,12 @@ class ClothesItem {
   final String price;
   final List<Color> colors;
   final List<String> sizes;
+  final String colorHint;
+  final String material;
+  final String thickLevel;
+  final String materialOrigin;
+  final String processOrigin;
+  final String flexibility;
 
   ClothesItem(
       {required this.id,
@@ -18,7 +24,13 @@ class ClothesItem {
       required this.imageUrl,
       required this.price,
       required this.colors,
-      required this.sizes});
+      required this.sizes,
+      required this.colorHint,
+      required this.material,
+      required this.thickLevel,
+      required this.materialOrigin,
+      required this.processOrigin,
+      required this.flexibility});
 }
 
 List<ClothesItem> generateMockClothesItems(int count, String category) {
@@ -49,6 +61,12 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
     final price = "NT\$ ${random.nextInt(10000)}";
     final colors = getRandomClothingColors();
     final sizes = getRandomClothingSizes();
+    const colorHint = "實品顏色依單品照為主";
+    final material = getRandomClothingMaterial();
+    final thickLevel = getRandomClothingThick();
+    final flexibility = getRandonClothingFlexibility();
+    final materialOrigin = getRandomClothingOrigin();
+    final processOrigin = getRandomClothingOrigin();
 
     return ClothesItem(
         id: id,
@@ -56,7 +74,13 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
         imageUrl: imageUrl,
         price: price,
         colors: colors,
-        sizes: sizes);
+        sizes: sizes,
+        colorHint: colorHint,
+        material: material,
+        thickLevel: thickLevel,
+        flexibility: flexibility,
+        materialOrigin: materialOrigin,
+        processOrigin: processOrigin);
   });
 }
 
@@ -117,4 +141,67 @@ List<String> getRandomClothingSizes() {
   int sampleSize = random.nextInt(4) + 1;
 
   return clothingSizes.take(sampleSize).toList();
+}
+
+String getRandomClothingMaterial() {
+  final clothingMaterial = [
+    '棉 100%',
+    '棉 80% / 聚酯纖維 20%',
+    '棉 70% / 聚酯纖維 30%',
+    '棉 60% / 聚酯纖維 40%',
+    '聚酯纖維 100%',
+    '聚酯纖維 80% / 棉 20%',
+    '天然蠶絲 100%',
+    '羊毛 100%',
+    '鵝絨 100%',
+  ];
+
+  final random = Random();
+  int randomIndex = random.nextInt(clothingMaterial.length);
+
+  return clothingMaterial[randomIndex];
+}
+
+String getRandomClothingThick() {
+  final clothingThick = [
+    '薄',
+    '厚',
+  ];
+
+  final random = Random();
+  int randomIndex = random.nextInt(clothingThick.length);
+
+  return clothingThick[randomIndex];
+}
+
+String getRandonClothingFlexibility() {
+  final clothingFlexcibility = [
+    '有',
+    '無',
+  ];
+
+  final random = Random();
+  int randomIndex = random.nextInt(clothingFlexcibility.length);
+
+  return clothingFlexcibility[randomIndex];
+}
+
+String getRandomClothingOrigin() {
+  final clothingOrigin = [
+    "台灣",
+    "日本",
+    "韓國",
+    "美國",
+    "英國",
+    "中國",
+    "菲律賓",
+    "印尼",
+    "越南",
+    "泰國",
+  ];
+
+  final random = Random();
+  int randomIndex = random.nextInt(clothingOrigin.length);
+
+  return clothingOrigin[randomIndex];
 }

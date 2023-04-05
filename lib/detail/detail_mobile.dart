@@ -133,6 +133,7 @@ class _DetailMobileState extends State<DetailMobile> {
                     ),
                   )
                 ]),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
             Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,6 +193,7 @@ class _DetailMobileState extends State<DetailMobile> {
                     ),
                   )
                 ]),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
             Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,7 +214,7 @@ class _DetailMobileState extends State<DetailMobile> {
                     icon: const Icon(Icons.remove),
                     onPressed: _decrease,
                   ),
-                  Container(
+                  SizedBox(
                     width: 50,
                     child: TextField(
                       controller: _controller,
@@ -230,6 +232,160 @@ class _DetailMobileState extends State<DetailMobile> {
                     onPressed: _increase,
                   ),
                 ]),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            DecoratedBox(
+                decoration: const BoxDecoration(color: Colors.grey),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      log('加入購物車');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      disabledBackgroundColor: Colors.transparent,
+                      disabledForegroundColor:
+                          Colors.transparent, // Disabled background color
+                      elevation: 0, // Removes the shadow
+                    ),
+                    child: const Text('請選擇尺寸',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                )),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 8, 0, 0)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(widget.clothesItem.colorHint,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    )),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(widget.clothesItem.material,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('厚薄：${widget.clothesItem.thickLevel}',
+                    style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal)),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text('彈性：${widget.clothesItem.flexibility}',
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text('素材產地/${widget.clothesItem.materialOrigin}',
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text('加工產地/${widget.clothesItem.processOrigin}',
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+            ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 32,
+                    child: ShaderMask(
+                      shaderCallback: ((bounds) {
+                        return const LinearGradient(
+                          colors: [
+                            Colors.blue,
+                            Colors.green,
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          tileMode: TileMode.repeated,
+                        ).createShader(bounds);
+                      }),
+                      child: const Text('細部說明',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal)),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Divider(
+                        color: Colors.grey, // Customize the divider color
+                        thickness: 2, // Customize the divider thickness
+                        height: 4, // Customize the space around the divider
+                      ),
+                    ],
+                  )
+                ]),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            const Text(
+                'O.N.S is all about options, which is why we took our staple polo shirt and upgraded it with slubby linen jersey, making it even lighter for those who prefer their summer style extra-breezy.',
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal)),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            SizedBox(
+                height: 200,
+                child: Image.asset(
+                  widget.clothesItem.imageUrl,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            SizedBox(
+                height: 200,
+                child: Image.asset(
+                  widget.clothesItem.imageUrl,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            SizedBox(
+                height: 200,
+                child: Image.asset(
+                  widget.clothesItem.imageUrl,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 16, 0, 0)),
+            SizedBox(
+                height: 200,
+                child: Image.asset(
+                  widget.clothesItem.imageUrl,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )),
           ],
         ),
       ),

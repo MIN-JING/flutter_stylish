@@ -2,15 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import '../detail/detail.dart';
 import '../model/women_clothes.dart';
 
 class HomeWeb extends StatefulWidget {
+  final bool isMobile;
   final ValueChanged<String> onButtonClicked;
   final List<ClothesItem> menClothes;
   final List<ClothesItem> womenClothes;
   final List<ClothesItem> assesories;
   const HomeWeb(
       {Key? key,
+      required this.isMobile,
       required this.onButtonClicked,
       required this.menClothes,
       required this.womenClothes,
@@ -48,6 +51,15 @@ class _HomeWebState extends State<HomeWeb> {
                   return GestureDetector(
                       onTap: () {
                         log('Item $index clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                                title: "商品細節",
+                                isMobile: widget.isMobile,
+                                clothesItem: widget.menClothes[index]),
+                          ),
+                        );
                       },
                       child: Card(
                           child: Center(
@@ -101,6 +113,15 @@ class _HomeWebState extends State<HomeWeb> {
                   return GestureDetector(
                       onTap: () {
                         log('Item $index clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                                title: "商品細節",
+                                isMobile: widget.isMobile,
+                                clothesItem: widget.womenClothes[index]),
+                          ),
+                        );
                       },
                       child: Card(
                           child: Center(
@@ -154,6 +175,15 @@ class _HomeWebState extends State<HomeWeb> {
                 return GestureDetector(
                     onTap: () {
                       log('Item $index clicked');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                                title: "商品細節",
+                                isMobile: widget.isMobile,
+                                clothesItem: widget.assesories[index]),
+                          ),
+                        );
                     },
                     child: Card(
                         child: Center(
