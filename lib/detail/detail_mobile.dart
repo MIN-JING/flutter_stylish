@@ -12,6 +12,32 @@ class DetailMobile extends StatefulWidget {
 }
 
 class _DetailMobileState extends State<DetailMobile> {
+  TextEditingController _controller = TextEditingController();
+  int _quantity = 0;
+
+  void _increase() {
+    setState(() {
+      _quantity++;
+      _controller.text = _quantity.toString();
+    });
+  }
+
+  void _decrease() {
+    setState(() {
+      if (_quantity == 0) {
+        return;
+      }
+      _quantity--;
+      _controller.text = _quantity.toString();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _quantity.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -152,18 +178,57 @@ class _DetailMobileState extends State<DetailMobile> {
                                     ),
                                   ],
                                 ),
-                                child: Text(widget.clothesItem.sizes[index],
-                                    style: const TextStyle(
+                                child: Text(
+                                  widget.clothesItem.sizes[index],
+                                  style: const TextStyle(
                                       color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                    textAlign: TextAlign.center,
-                                        ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ));
                       },
                     ),
                   )
+                ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "數量",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                    child: VerticalDivider(
+                      color: Colors.grey, // Customize the divider color
+                      thickness: 2, // Customize the divider thickness
+                      width: 32, // Customize the space around the divider
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.remove),
+                    onPressed: _decrease,
+                  ),
+                  Container(
+                    width: 50,
+                    child: TextField(
+                      controller: _controller,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      onChanged: (String quantity) {
+                        setState(() {
+                          _quantity = int.tryParse(quantity) ?? 0;
+                        });
+                      },
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: _increase,
+                  ),
                 ]),
           ],
         ),

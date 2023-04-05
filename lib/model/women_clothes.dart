@@ -114,7 +114,7 @@ List<String> getRandomClothingSizes() {
   ];
 
   final random = Random();
-  int sampleSize = random.nextInt(4);
+  int sampleSize = random.nextInt(4) + 1;
 
   return clothingSizes.take(sampleSize).toList();
 }
