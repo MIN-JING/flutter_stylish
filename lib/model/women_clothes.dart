@@ -46,7 +46,7 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
       imageUrl = "assets/images/img_top_banner.jpg";
     }
 
-    final price = "NT\$${random.nextInt(10000)}";
+    final price = "NT\$ ${random.nextInt(10000)}";
     final colors = getRandomClothingColors();
     final sizes = getRandomClothingSizes();
 

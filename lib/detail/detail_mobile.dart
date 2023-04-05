@@ -107,6 +107,64 @@ class _DetailMobileState extends State<DetailMobile> {
                     ),
                   )
                 ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "尺寸",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                    child: VerticalDivider(
+                      color: Colors.grey, // Customize the divider color
+                      thickness: 2, // Customize the divider thickness
+                      width: 32, // Customize the space around the divider
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: widget.clothesItem.sizes.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () {
+                              log('Color Item $index clicked');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
+                              child: Container(
+                                width: 30,
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(widget.clothesItem.sizes[index],
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                        ),
+                              ),
+                            ));
+                      },
+                    ),
+                  )
+                ]),
           ],
         ),
       ),
