@@ -59,11 +59,9 @@ List<BannerItem> generateMockBannerItems(int count) {
   final random = Random();
 
   return List<BannerItem>.generate(count, (index) {
-    final id = random.nextInt(100000);
+    final id = 100 + random.nextInt(99);
     final name = faker.person.name();
     const imageUrl = "assets/images/img_top_banner.jpg";
-    // final imageUrl = 'https://i.pravatar.cc/150?img=${random.nextInt(100)}';
-    // const imageUrl = "assets/images/bg_home_top.jfif";
 
     return BannerItem(id: id, name: name, imageUrl: imageUrl);
   });

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/assesories.dart';
-import 'package:flutter_minjing_stylish/model/men_clothes.dart';
 import 'package:flutter_minjing_stylish/model/banner.dart';
 import 'package:flutter_minjing_stylish/model/women_clothes.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 600;
+
     return ChangeNotifierProvider(
         create: (context) => ClothesCategoryState(),
         child: MaterialApp(
@@ -34,11 +35,11 @@ class ClothesCategoryState extends ChangeNotifier {
   void toggleCategory(String category) {
     clothesCategory = category;
     if (category == "女裝") {
-      clothes = WomenClothes.items;
+      clothes = generateMockClothesItems(20, 200);
     } else if (category == "男裝") {
-      clothes = MenClothes.items;
+      clothes = generateMockClothesItems(20, 100);
     } else if (category == "配件") {
-      clothes = Assesories.items;
+      clothes = generateMockClothesItems(20, 300);
     }
     notifyListeners();
   }
