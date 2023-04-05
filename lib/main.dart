@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/banner.dart';
 import 'package:flutter_minjing_stylish/model/women_clothes.dart';
@@ -16,9 +18,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // bool isMobile = screenWidth < 600;
-
     return ChangeNotifierProvider(
         create: (context) => ClothesCategoryState(),
         child: MaterialApp(
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)),
           home: const MyHomePage(title: '商品概覽'),
-          // isMobile ? const HomeMobile() : const HomeMobile(),
         ));
   }
 }
@@ -37,7 +35,7 @@ class ClothesCategoryState extends ChangeNotifier {
   var clothes = <ClothesItem>[];
 
   void toggleCategory(String category) {
-    print("toggleCategory: $category");
+    log("toggleCategory: $category");
     clothesCategory = category;
     clothes = generateMockClothesItems(20, category);
     notifyListeners();
@@ -94,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
             isMobile
                 ? HomeMobile(
+                    isMobile: isMobile,
                     clothes: appState.clothes,
                     onButtonClicked: (category) {
                       appState.toggleCategory(category);

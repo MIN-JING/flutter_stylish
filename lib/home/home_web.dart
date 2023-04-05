@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../model/women_clothes.dart';
@@ -45,7 +47,7 @@ class _HomeWebState extends State<HomeWeb> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () {
-                        print('Item $index clicked');
+                        log('Item $index clicked');
                       },
                       child: Card(
                           child: Center(
@@ -98,7 +100,7 @@ class _HomeWebState extends State<HomeWeb> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () {
-                        print('Item $index clicked');
+                        log('Item $index clicked');
                       },
                       child: Card(
                           child: Center(
@@ -151,7 +153,7 @@ class _HomeWebState extends State<HomeWeb> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
-                      print('Item $index clicked');
+                      log('Item $index clicked');
                     },
                     child: Card(
                         child: Center(

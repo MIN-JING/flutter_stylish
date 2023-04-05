@@ -2,46 +2,6 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 
-class TopBanner {
-  static final items = [
-    BannerItem(
-      id: 101,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 102,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 103,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 104,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 105,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 106,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-    BannerItem(
-      id: 107,
-      name: "盤子",
-      imageUrl: "assets/images/bg_home_top.jfif",
-    ),
-  ];
-}
-
 class BannerItem {
   final int id;
   final String name;
@@ -61,7 +21,7 @@ List<BannerItem> generateMockBannerItems(int count) {
   return List<BannerItem>.generate(count, (index) {
     final id = 100 + random.nextInt(99);
     final name = faker.person.name();
-    const imageUrl = "assets/images/img_top_banner.jpg";
+    const imageUrl = "assets/images/img_top_banner.png";
 
     return BannerItem(id: id, name: name, imageUrl: imageUrl);
   });

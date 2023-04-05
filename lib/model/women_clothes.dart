@@ -1,58 +1,24 @@
 import 'dart:math';
 
-import 'assesories.dart';
+import 'package:flutter/material.dart';
 
-class WomenClothes {
-  static final items = [
-    ClothesItem(
-        id: 201,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 202,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 3,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 4,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 5,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 6,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-    ClothesItem(
-        id: 7,
-        name: "女裝",
-        imageUrl: "assets/images/bg_home_top.jfif",
-        price: "NT\$ 300"),
-  ];
-}
+import 'assesories.dart';
 
 class ClothesItem {
   final int id;
   final String name;
   final String imageUrl;
   final String price;
+  final List<Color> colors;
+  final List<String> sizes;
 
   ClothesItem(
       {required this.id,
       required this.name,
       required this.imageUrl,
-      required this.price});
+      required this.price,
+      required this.colors,
+      required this.sizes});
 }
 
 List<ClothesItem> generateMockClothesItems(int count, String category) {
@@ -81,8 +47,16 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
     }
 
     final price = "NT\$${random.nextInt(10000)}";
+    final colors = getRandomClothingColors();
+    final sizes = getRandomClothingSizes();
 
-    return ClothesItem(id: id, name: name, imageUrl: imageUrl, price: price);
+    return ClothesItem(
+        id: id,
+        name: name,
+        imageUrl: imageUrl,
+        price: price,
+        colors: colors,
+        sizes: sizes);
   });
 }
 
@@ -109,4 +83,38 @@ String getRandomClothingName() {
   int randomIndex = random.nextInt(clothingNames.length);
 
   return clothingNames[randomIndex];
+}
+
+List<Color> getRandomClothingColors() {
+  final clothingColors = [
+    Colors.black,
+    Colors.white,
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.pink,
+    Colors.purple,
+    Colors.brown,
+  ];
+
+  final random = Random();
+  int sampleSize = random.nextInt(5) + 1;
+
+  return clothingColors.take(sampleSize).toList();
+}
+
+List<String> getRandomClothingSizes() {
+  final clothingSizes = [
+    'S',
+    'M',
+    'L',
+    'XL',
+  ];
+
+  final random = Random();
+  int sampleSize = random.nextInt(4);
+
+  return clothingSizes.take(sampleSize).toList();
 }

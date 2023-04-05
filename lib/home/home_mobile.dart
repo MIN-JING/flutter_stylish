@@ -1,12 +1,19 @@
+import 'dart:developer';
+import '../detail/detail.dart';
+
 import 'package:flutter/material.dart';
 
 import '../model/women_clothes.dart';
 
 class HomeMobile extends StatefulWidget {
+  final bool isMobile;
   final ValueChanged<String> onButtonClicked;
   final List<ClothesItem> clothes;
   const HomeMobile(
-      {Key? key, required this.clothes, required this.onButtonClicked})
+      {Key? key,
+      required this.onButtonClicked,
+      required this.clothes,
+      required this.isMobile})
       : super(key: key);
 
   @override
@@ -66,7 +73,16 @@ class _HomeMobileState extends State<HomeMobile> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
-                      print('Item $index clicked');
+                      log('Item $index clicked');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(
+                              title: "商品細節",
+                              isMobile: widget.isMobile,
+                              clothesItem: widget.clothes[index]),
+                        ),
+                      );
                     },
                     child: Card(
                         child: Center(
@@ -76,7 +92,8 @@ class _HomeMobileState extends State<HomeMobile> {
                         Image.asset(
                           widget.clothes[index].imageUrl,
                           width: 100,
-                          height: 100,),
+                          height: 100,
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
