@@ -55,21 +55,32 @@ class ClothesItem {
       required this.price});
 }
 
-List<ClothesItem> generateMockClothesItems(int count, int category) {
+List<ClothesItem> generateMockClothesItems(int count, String category) {
   final random = Random();
 
   return List<ClothesItem>.generate(count, (index) {
-    final id = category + random.nextInt(99);
-
+    final int id;
     final String name;
-    if (category < 300) {
+    final String imageUrl;
+    if (category == "男裝") {
+      id = 100 + random.nextInt(99);
       name = getRandomClothingName();
-    } else {
+      imageUrl = "assets/images/img_clothes_men.png";
+    } else if (category == "女裝") {
+      id = 200 + random.nextInt(99);
+      name = getRandomClothingName();
+      imageUrl = "assets/images/img_clothes_women.png";
+    } else if (category == "配件") {
+      id = 300 + random.nextInt(99);
       name = getRandomAssesoriesName();
+      imageUrl = "assets/images/img_assesories.png";
+    } else {
+      id = 400 + random.nextInt(99);
+      name = getRandomClothingName();
+      imageUrl = "assets/images/img_top_banner.jpg";
     }
 
-    const imageUrl = "assets/images/img_top_banner.jpg";
-    final price = "NT\$${random.nextInt(1000)}";
+    final price = "NT\$${random.nextInt(10000)}";
 
     return ClothesItem(id: id, name: name, imageUrl: imageUrl, price: price);
   });
