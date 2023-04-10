@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../detail/detail.dart';
-import '../model/women_clothes.dart';
+import '../model/clothes.dart';
 
 class HomeWeb extends StatefulWidget {
   final bool isMobile;

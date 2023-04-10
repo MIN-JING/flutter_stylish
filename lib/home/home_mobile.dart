@@ -1,28 +1,47 @@
 import 'dart:developer';
+import '../cart/cart_inherited_widget.dart';
 import '../detail/detail.dart';
 
 import 'package:flutter/material.dart';
 
-import '../model/women_clothes.dart';
+import '../main.dart';
 
 class HomeMobile extends StatefulWidget {
   final bool isMobile;
-  final ValueChanged<String> onButtonClicked;
-  final List<ClothesItem> clothes;
-  const HomeMobile(
-      {Key? key,
-      required this.onButtonClicked,
-      required this.clothes,
-      required this.isMobile})
-      : super(key: key);
+
+  const HomeMobile({Key? key, required this.isMobile}) : super(key: key);
 
   @override
   State<HomeMobile> createState() => _HomeMobileState();
 }
 
 class _HomeMobileState extends State<HomeMobile> {
+  void _toggleCategory(String category) {
+    CartInheritedWidget.of(context)?.appState.toggleCategory(category);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    CartInheritedWidget.of(context)?.appState.addListener(_updateClothesList);
+  }
+
+  @override
+  void dispose() {
+    CartInheritedWidget.of(context)
+        ?.appState
+        .removeListener(_updateClothesList);
+    super.dispose();
+  }
+
+  void _updateClothesList() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final appState = CartInheritedWidget.of(context)?.appState ?? AppState();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -31,7 +50,7 @@ class _HomeMobileState extends State<HomeMobile> {
           children: <Widget>[
             TextButton(
               onPressed: () {
-                widget.onButtonClicked("男裝");
+                _toggleCategory("男裝");
               },
               style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
@@ -42,7 +61,7 @@ class _HomeMobileState extends State<HomeMobile> {
             const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
             TextButton(
               onPressed: () {
-                widget.onButtonClicked("女裝");
+                _toggleCategory("女裝");
               },
               style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
@@ -53,7 +72,7 @@ class _HomeMobileState extends State<HomeMobile> {
             const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
             TextButton(
               onPressed: () {
-                widget.onButtonClicked("配件");
+                _toggleCategory("配件");
               },
               style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
@@ -69,7 +88,7 @@ class _HomeMobileState extends State<HomeMobile> {
               scrollDirection: Axis.vertical,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: widget.clothes.length,
+              itemCount: appState.clothesCategoryState.clothes.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
@@ -78,9 +97,11 @@ class _HomeMobileState extends State<HomeMobile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailPage(
-                              title: "商品細節",
-                              isMobile: widget.isMobile,
-                              clothesItem: widget.clothes[index]),
+                            title: "商品細節",
+                            isMobile: widget.isMobile,
+                            clothesItem:
+                                appState.clothesCategoryState.clothes[index],
+                          ),
                         ),
                       );
                     },
@@ -90,7 +111,7 @@ class _HomeMobileState extends State<HomeMobile> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          widget.clothes[index].imageUrl,
+                          appState.clothesCategoryState.clothes[index].imageUrl,
                           width: 100,
                           height: 100,
                         ),
@@ -100,8 +121,10 @@ class _HomeMobileState extends State<HomeMobile> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text(widget.clothes[index].name),
-                                Text(widget.clothes[index].price)
+                                Text(appState
+                                    .clothesCategoryState.clothes[index].name),
+                                Text(appState
+                                    .clothesCategoryState.clothes[index].price)
                               ],
                             )
                           ],

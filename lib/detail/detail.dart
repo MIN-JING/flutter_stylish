@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/women_clothes.dart';
+import 'package:flutter_minjing_stylish/model/clothes.dart';
 import '../detail/detail_mobile.dart';
 
 class DetailPage extends StatefulWidget {

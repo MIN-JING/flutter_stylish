@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/women_clothes.dart';
+import 'package:flutter_minjing_stylish/model/clothes.dart';
+
+import '../cart/cart_inherited_widget.dart';
+import '../cart/cart_mobile.dart';
 
 class DetailMobile extends StatefulWidget {
   final ClothesItem clothesItem;
@@ -12,6 +15,15 @@ class DetailMobile extends StatefulWidget {
 }
 
 class _DetailMobileState extends State<DetailMobile> {
+  void _addItemToCart() {
+    setState(() {
+      CartInheritedWidget.of(context)
+          ?.appState
+          .cart
+          .addClothesItem(widget.clothesItem);
+    });
+  }
+
   TextEditingController _controller = TextEditingController();
   int _quantity = 0;
 
@@ -241,6 +253,13 @@ class _DetailMobileState extends State<DetailMobile> {
                   child: ElevatedButton(
                     onPressed: () {
                       log('加入購物車');
+                      _addItemToCart();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartMobile(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
