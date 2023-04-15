@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/banner.dart';
 import 'package:flutter_minjing_stylish/model/clothes.dart';
+import 'package:flutter_minjing_stylish/network/api_service.dart';
 
 import 'cart/cart_inherited_widget.dart';
 import 'home/home_mobile.dart';
@@ -69,6 +70,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<dynamic> _campaigns = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getMarketCampaign().then((campaigns) {
+      setState(() {
+        _campaigns = campaigns;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = CartInheritedWidget.of(context)?.appState ?? AppState();
@@ -98,11 +111,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: mockBannerItems.length,
+                  itemCount: _campaigns.length,
                   itemBuilder: (context, index) {
                     return Card(
                         child: Center(
-                      child: Image.asset(mockBannerItems[index].imageUrl),
+                      child: Image.network(
+                        _campaigns[index]['picture'],
+                        errorBuilder: (context, error, stackTrace) {
+                          print(error.toString());
+                          return const Text("Error loading image");
+                        },
+                      ),
                     ));
                   }),
             ),

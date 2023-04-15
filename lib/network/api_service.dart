@@ -7,15 +7,17 @@ const String marketCampaign = '$basePath/marketing/campaigns';
 
 final dio = Dio();
 
-void getMarketCampaign() async {
+Future<List<dynamic>> getMarketCampaign() async {
   try {
     final response = await dio.get(marketCampaign);
     print(response);
+    return response.data['data'];
   } catch (e) {
     if (e is DioError) {
       print('Dio error occurred: ${e.error}');
     } else {
       print('Unexpected error occurred: $e');
     }
+    return [];
   }
 }

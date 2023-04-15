@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:flutter_minjing_stylish/network/api_service.dart';
 
 import '../cart/cart_inherited_widget.dart';
 import '../detail/detail.dart';
@@ -34,12 +33,6 @@ class _HomeMobileState extends State<HomeMobile> {
         ?.appState
         .removeListener(_updateClothesList);
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getMarketCampaign();
   }
 
   void _updateClothesList() {
