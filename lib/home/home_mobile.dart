@@ -36,6 +36,12 @@ class _HomeMobileState extends State<HomeMobile> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getMarketCampaign();
+  }
+
   void _updateClothesList() {
     setState(() {});
   }
@@ -53,7 +59,6 @@ class _HomeMobileState extends State<HomeMobile> {
             TextButton(
               onPressed: () {
                 _toggleCategory("男裝");
-                getMarketCampaign();
               },
               style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
