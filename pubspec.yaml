@@ -41,6 +41,9 @@ dependencies:
   # faker
   faker: ^2.0.0
 
+  # dio 處理網路請求及回應
+  dio: ^5.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

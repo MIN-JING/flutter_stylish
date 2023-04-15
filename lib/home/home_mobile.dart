@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:flutter_minjing_stylish/network/api_service.dart';
+
 import '../cart/cart_inherited_widget.dart';
 import '../detail/detail.dart';
 
@@ -51,6 +53,7 @@ class _HomeMobileState extends State<HomeMobile> {
             TextButton(
               onPressed: () {
                 _toggleCategory("男裝");
+                getMarketCampaign();
               },
               style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
