@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'cart_inherited_widget.dart';
 
 class CartMobile extends StatefulWidget {
   const CartMobile({Key? key}) : super(key: key);

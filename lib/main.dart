@@ -1,147 +1,113 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/banner.dart';
+import 'package:flutter_minjing_stylish/bloc/app_bloc.dart';
+import 'package:flutter_minjing_stylish/home/home.dart';
 import 'package:flutter_minjing_stylish/model/clothes.dart';
-import 'package:flutter_minjing_stylish/network/api_service.dart';
+import 'package:provider/provider.dart';
 
-import 'cart/cart_inherited_widget.dart';
-import 'home/home_mobile.dart';
-import 'home/home_web.dart';
-import 'model/cart.dart';
+import 'model/market_campaign.dart';
 
 void main() {
-  runApp(MyApp());
+  // runApp(MyApp(ApplicationBloc()));
+  runApp(Provider<ApplicationBloc>(
+    create: (_) => ApplicationBloc(),
+    child: MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  final AppState appState = AppState();
+class MyApp extends StatefulWidget {
+  final ApplicationBloc bloc;
 
-  MyApp({super.key});
+  const MyApp(this.bloc, {super.key});
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return CartInheritedWidget(
-      appState: appState,
-      child: MaterialApp(
-        title: 'Flutter Stylish Jim App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        ),
-        home: const MyHomePage(title: '商品概覽'),
+    final bloc = Provider.of<ApplicationBloc>(context);
+    return MaterialApp(
+      title: 'Flutter Stylish Jim App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ValueListenableBuilder<List<MarketCampaign>>(
+        valueListenable: bloc.marketCampaignsNotifier,
+        builder: (context, marketCampaigns, _) {
+          return ValueListenableBuilder<List<ClothesItem>>(
+            valueListenable: bloc.clothesItemsNotifier,
+            builder: (context, clothesItems, _) {
+              return HomePage(
+                title: 'Home Page',
+                marketCampaigns: marketCampaigns,
+                clothesItems: clothesItems,
+              );
+            },
+          );
+        },
       ),
     );
   }
 }
 
-class ClothesCategoryState extends ChangeNotifier {
-  var clothesCategory = "女裝";
-  var clothes = <ClothesItem>[];
+// class _MyAppState extends State<MyApp> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Stylish Jim App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: ValueListenableBuilder<List<MarketCampaign>>(
+//         valueListenable: widget.bloc.marketCampaignsNotifier,
+//         builder: (context, marketCampaigns, _) {
+//           return ValueListenableBuilder<List<ClothesItem>>(
+//             valueListenable: widget.bloc.clothesItemsNotifier,
+//             builder: (context, clothesItems, _) {
+//               return HomePage(
+//                 title: 'Application Bloc Home Page',
+//                 marketCampaigns: marketCampaigns,
+//                 clothesItems: clothesItems,
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
-  void toggleCategory(String category) {
-    log("toggleCategory: $category");
-    clothesCategory = category;
-    clothes = generateMockClothesItems(20, category);
-    notifyListeners();
-  }
-}
+// void main() {
+//   runApp(MyApp(bloc: GeneralBloc()));
+// }
 
-class AppState extends ChangeNotifier {
-  final Cart _cart = Cart();
-  final ClothesCategoryState _clothesCategoryState = ClothesCategoryState();
+// void main() {
+//   runApp(const MyApp());
+// }
 
-  Cart get cart => _cart;
-  ClothesCategoryState get clothesCategoryState => _clothesCategoryState;
+// class MyApp extends StatelessWidget {
+//   // final BaseBloc<dynamic> bloc;
 
-  void toggleCategory(String category) {
-    _clothesCategoryState.toggleCategory(category);
-    notifyListeners();
-  }
-}
+//   const MyApp({Key? key}) : super(key: key);
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<dynamic> _campaigns = [];
-
-  @override
-  void initState() {
-    super.initState();
-    getMarketCampaign().then((campaigns) {
-      setState(() {
-        _campaigns = campaigns;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final appState = CartInheritedWidget.of(context)?.appState ?? AppState();
-
-    final mockBannerItems = generateMockBannerItems(20);
-
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 600;
-
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Stylish",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            SizedBox(
-              height: 100.0,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: _campaigns.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        child: Center(
-                      child: Image.network(
-                        _campaigns[index]['picture'],
-                        errorBuilder: (context, error, stackTrace) {
-                          print(error.toString());
-                          return const Text("Error loading image");
-                        },
-                      ),
-                    ));
-                  }),
-            ),
-            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            isMobile
-                ? HomeMobile(
-                    isMobile: isMobile,
-                  )
-                : HomeWeb(
-                    isMobile: isMobile,
-                    menClothes: generateMockClothesItems(20, "男裝"),
-                    womenClothes: generateMockClothesItems(20, "女裝"),
-                    assesories: generateMockClothesItems(20, "配件"),
-                    onButtonClicked: (category) {
-                      appState.toggleCategory(category);
-                    },
-                  ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiBlocProvider(
+//       providers: [
+//         // BlocProvider<BaseBloc<dynamic>>(create: (context) => bloc),
+//         BlocProvider<ApplicationBloc>(create: (context) => ApplicationBloc()),
+//         BlocProvider<ClothesCategoryBloc>(
+//             create: (context) => ClothesCategoryBloc()),
+//       ],
+//       child: MaterialApp(
+//         title: 'Flutter Stylish Jim App',
+//         theme: ThemeData(
+//           useMaterial3: true,
+//           colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+//         ),
+//         home: const HomePage(title: '商品概覽'),
+//       ),
+//     );
+//   }
+// }

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/clothes.dart';
 
-import '../cart/cart_inherited_widget.dart';
 import '../cart/cart_mobile.dart';
 
 class DetailMobile extends StatefulWidget {

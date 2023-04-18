@@ -44,6 +44,10 @@ dependencies:
   # dio 處理網路請求及回應
   dio: ^5.1.1
 
+  # bloc 管理 state
+  flutter_bloc: ^8.1.2
+  bloc: ^8.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
