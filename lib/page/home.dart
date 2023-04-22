@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/market_campaign.dart';
+import 'package:flutter_minjing_stylish/model/campaign.dart';
 
 import '../model/clothes.dart';
 import '../model/home_data.dart';
@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            ValueListenableBuilder<List<MarketCampaign>>(
-              valueListenable: widget.homeData.marketCampaigns,
+            ValueListenableBuilder<List<Campaign>>(
+              valueListenable: widget.homeData.campaigns,
               builder: (context, marketCampaigns, _) {
                 return SizedBox(
                   height: 100.0,

@@ -1,35 +1,35 @@
 
-class ResponseMarketCampaign {
-  final List<MarketCampaign> marketCampaign;
+class ResponseCampaigns {
+  final List<Campaign> marketCampaign;
 
-  ResponseMarketCampaign({
+  ResponseCampaigns({
     required this.marketCampaign,
   });
 
-  factory ResponseMarketCampaign.fromJson(Map<String, dynamic> json) {
-    return ResponseMarketCampaign(
+  factory ResponseCampaigns.fromJson(Map<String, dynamic> json) {
+    return ResponseCampaigns(
       marketCampaign: (json['data'] as List<dynamic>)
-          .map((e) => MarketCampaign.fromJson(e as Map<String, dynamic>))
+          .map((e) => Campaign.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 }
 
-class MarketCampaign {
+class Campaign {
   final int id;
   final int productId;
   final String picture;
   final String story;
 
-  MarketCampaign({
+  Campaign({
     required this.id,
     required this.productId,
     required this.picture,
     required this.story,
   });
 
-  factory MarketCampaign.fromJson(Map<String, dynamic> json) {
-    return MarketCampaign(
+  factory Campaign.fromJson(Map<String, dynamic> json) {
+    return Campaign(
       id: json['id'] as int,
       productId: json['product_id'] as int,
       picture: json['picture'] as String,
