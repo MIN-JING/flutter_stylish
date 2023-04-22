@@ -1,3 +1,4 @@
+
 class ResponseMarketCampaign {
   final List<MarketCampaign> marketCampaign;
 

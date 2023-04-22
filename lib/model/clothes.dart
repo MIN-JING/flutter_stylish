@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'assesories.dart';
+import 'accessories.dart';
 
 class ClothesItem {
   final int id;
@@ -50,8 +50,8 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
       imageUrl = "assets/images/img_clothes_women.png";
     } else if (category == "配件") {
       id = 300 + random.nextInt(99);
-      name = getRandomAssesoriesName();
-      imageUrl = "assets/images/img_assesories.png";
+      name = getRandomAccessories();
+      imageUrl = "assets/images/img_accessories.png";
     } else {
       id = 400 + random.nextInt(99);
       name = getRandomClothingName();
@@ -64,7 +64,7 @@ List<ClothesItem> generateMockClothesItems(int count, String category) {
     const colorHint = "實品顏色依單品照為主";
     final material = getRandomClothingMaterial();
     final thickLevel = getRandomClothingThick();
-    final flexibility = getRandonClothingFlexibility();
+    final flexibility = getRandomClothingFlexibility();
     final materialOrigin = getRandomClothingOrigin();
     final processOrigin = getRandomClothingOrigin();
 
@@ -174,16 +174,16 @@ String getRandomClothingThick() {
   return clothingThick[randomIndex];
 }
 
-String getRandonClothingFlexibility() {
-  final clothingFlexcibility = [
+String getRandomClothingFlexibility() {
+  final clothingFlexibility = [
     '有',
     '無',
   ];
 
   final random = Random();
-  int randomIndex = random.nextInt(clothingFlexcibility.length);
+  int randomIndex = random.nextInt(clothingFlexibility.length);
 
-  return clothingFlexcibility[randomIndex];
+  return clothingFlexibility[randomIndex];
 }
 
 String getRandomClothingOrigin() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/clothes.dart';
-import '../detail/detail_mobile.dart';
+import 'detail_mobile.dart';
 
 class DetailPage extends StatefulWidget {
   final bool isMobile;

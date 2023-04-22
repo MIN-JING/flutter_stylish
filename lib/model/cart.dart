@@ -21,4 +21,8 @@ class Cart extends ChangeNotifier {
     }
     return removed;
   }
+
+  void clearClothesItems() {
+    clothesItems.clear();
+  }
 }

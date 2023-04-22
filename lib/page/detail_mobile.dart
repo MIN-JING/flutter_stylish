@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/clothes.dart';
+import 'package:provider/provider.dart';
 
-import '../cart/cart_mobile.dart';
+import '../bloc/application_bloc.dart';
+import 'cart_mobile.dart';
 
 class DetailMobile extends StatefulWidget {
   final ClothesItem clothesItem;
@@ -16,9 +18,7 @@ class DetailMobile extends StatefulWidget {
 class _DetailMobileState extends State<DetailMobile> {
   void _addItemToCart() {
     setState(() {
-      CartInheritedWidget.of(context)
-          ?.appState
-          .cart
+      Provider.of<ApplicationBloc>(context, listen: false)
           .addClothesItem(widget.clothesItem);
     });
   }

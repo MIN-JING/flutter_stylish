@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../detail/detail.dart';
+import 'detail.dart';
 import '../model/clothes.dart';
 
 class HomeWeb extends StatefulWidget {
@@ -10,14 +10,14 @@ class HomeWeb extends StatefulWidget {
   final ValueChanged<String> onButtonClicked;
   final List<ClothesItem> menClothes;
   final List<ClothesItem> womenClothes;
-  final List<ClothesItem> assesories;
+  final List<ClothesItem> accessories;
   const HomeWeb(
       {Key? key,
       required this.isMobile,
       required this.onButtonClicked,
       required this.menClothes,
       required this.womenClothes,
-      required this.assesories})
+      required this.accessories})
       : super(key: key);
 
   @override
@@ -170,7 +170,7 @@ class _HomeWebState extends State<HomeWeb> {
               scrollDirection: Axis.vertical,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: widget.assesories.length,
+              itemCount: widget.accessories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                     onTap: () {
@@ -181,7 +181,7 @@ class _HomeWebState extends State<HomeWeb> {
                             builder: (context) => DetailPage(
                                 title: "商品細節",
                                 isMobile: widget.isMobile,
-                                clothesItem: widget.assesories[index]),
+                                clothesItem: widget.accessories[index]),
                           ),
                         );
                     },
@@ -191,7 +191,7 @@ class _HomeWebState extends State<HomeWeb> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          widget.assesories[index].imageUrl,
+                          widget.accessories[index].imageUrl,
                           width: 100,
                           height: 100,
                         ),
@@ -201,8 +201,8 @@ class _HomeWebState extends State<HomeWeb> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text(widget.assesories[index].name),
-                                Text(widget.assesories[index].price)
+                                Text(widget.accessories[index].name),
+                                Text(widget.accessories[index].price)
                               ],
                             )
                           ],

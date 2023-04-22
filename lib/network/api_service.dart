@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 const String host = 'https://api.appworks-school.tw';
 const String apiVersion = '1.0';
@@ -14,9 +15,13 @@ Future<List<dynamic>> getMarketCampaign() async {
     return response.data['data'];
   } catch (e) {
     if (e is DioError) {
-      print('Dio error occurred: ${e.error}');
+      if (kDebugMode) {
+        print('Dio error occurred: ${e.error}');
+      }
     } else {
-      print('Unexpected error occurred: $e');
+      if (kDebugMode) {
+        print('Unexpected error occurred: $e');
+      }
     }
     return [];
   }

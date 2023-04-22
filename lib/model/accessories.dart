@@ -1,7 +1,7 @@
 import 'dart:math';
 
-String getRandomAssesoriesName() {
-  final assesoriesNames = [
+String getRandomAccessories() {
+  final accessories = [
     '皮帶',
     '手套',
     '帽子',
@@ -15,7 +15,7 @@ String getRandomAssesoriesName() {
   ];
 
   final random = Random();
-  int randomIndex = random.nextInt(assesoriesNames.length);
+  int randomIndex = random.nextInt(accessories.length);
 
-  return assesoriesNames[randomIndex];
+  return accessories[randomIndex];
 }
