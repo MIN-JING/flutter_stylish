@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
-
-import '../model/clothes.dart';
+import 'package:flutter_minjing_stylish/model/product.dart';
 
 class Cart extends ChangeNotifier {
   // Make the list private
-  final List<ClothesItem> _clothesItems = [];
+  final List<Product> _products = [];
 
   // Expose the list through a getter
-  List<ClothesItem> get clothesItems => _clothesItems;
+  List<Product> get products => _products;
 
-  void addClothesItem(ClothesItem clothesItem) {
-    _clothesItems.add(clothesItem);
+  void addProduct(Product product) {
+    _products.add(product);
     notifyListeners();
   }
 
-  bool removeClothesItem(ClothesItem item) {
-    final removed = _clothesItems.remove(item);
+  bool removeProduct(Product product) {
+    final removed = _products.remove(product);
     if (removed) {
       notifyListeners();
     }
     return removed;
   }
 
-  void clearClothesItems() {
-    clothesItems.clear();
+  void clearProducts() {
+    products.clear();
   }
 }

@@ -8,9 +8,9 @@ class ApiConstant {
   static const String basePath = '$host/api/$apiVersion';
   static const String campaigns = '$basePath/marketing/campaigns';
   static const String hots = '$basePath/marketing/hots';
-  static const String products = '$basePath/products';
-  static const String all = '/all';
-  static const String women = '/women';
-  static const String men = '/men';
-  static const String accessories = '/accessories';
+  static const String products = '$basePath/products/';
+  static const String all = 'all';
+  static const String women = 'women';
+  static const String men = 'men';
+  static const String accessories = 'accessories';
 }

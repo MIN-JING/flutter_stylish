@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_minjing_stylish/model/product.dart';
 
 import 'clothes.dart';
 import 'campaign.dart';
@@ -9,9 +10,9 @@ class HomeData {
 
   ValueNotifier<List<Hot>> hots = ValueNotifier<List<Hot>>([]);
 
-  ValueNotifier<List<ClothesItem>> womenClothes = ValueNotifier<List<ClothesItem>>([]);
+  ValueNotifier<List<Product>> productsWomen = ValueNotifier<List<Product>>([]);
 
-  ValueNotifier<List<ClothesItem>> menClothes = ValueNotifier<List<ClothesItem>>([]);
+  ValueNotifier<List<Product>> productsMen = ValueNotifier<List<Product>>([]);
 
-  ValueNotifier<List<ClothesItem>> accessories = ValueNotifier<List<ClothesItem>>([]);
+  ValueNotifier<List<Product>> productsAccessories = ValueNotifier<List<Product>>([]);
 }

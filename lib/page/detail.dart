@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_minjing_stylish/model/clothes.dart';
+import '../model/product.dart';
 import 'detail_mobile.dart';
 
 class DetailPage extends StatefulWidget {
   final bool isMobile;
-  final ClothesItem clothesItem;
+  final Product product;
   const DetailPage(
       {super.key,
       required this.title,
       required this.isMobile,
-      required this.clothesItem});
+      required this.product});
 
   final String title;
 
@@ -31,8 +31,8 @@ class _DetailPageState extends State<DetailPage> {
         ),
         body: SingleChildScrollView(
           child: widget.isMobile
-              ? DetailMobile(clothesItem: widget.clothesItem)
-              : DetailMobile(clothesItem: widget.clothesItem),
+              ? DetailMobile(product: widget.product)
+              : DetailMobile(product: widget.product),
         ));
   }
 }

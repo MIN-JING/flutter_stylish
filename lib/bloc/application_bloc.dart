@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter_minjing_stylish/model/clothes.dart';
 import 'package:flutter_minjing_stylish/model/campaign.dart';
 import 'package:flutter_minjing_stylish/network/api_service.dart';
 
 import '../model/cart.dart';
 import '../model/home_data.dart';
 import '../model/hot.dart';
+import '../model/product.dart';
+import '../network/api_constant.dart';
 
 class ApplicationBloc {
   HomeData homeData = HomeData();
@@ -22,30 +23,42 @@ class ApplicationBloc {
     final List<Campaign> campaigns = campaignsJson
         .map((jsonCampaign) => Campaign.fromJson(jsonCampaign))
         .toList();
-
     homeData.campaigns.value = campaigns;
 
     final List<dynamic> hotsJson = await getHots();
     final List<Hot> hots = hotsJson
         .map((jsonHot) => Hot.fromJson(jsonHot))
         .toList();
-
     homeData.hots.value = hots;
+    
+    final List<dynamic> productsWomenJson = await getProducts(ApiConstant.women);
+    final List<Product> productsWomen = productsWomenJson
+        .map((jsonProduct) => Product.fromJson(jsonProduct))
+        .toList();
+    homeData.productsWomen.value = productsWomen;
 
-    homeData.womenClothes.value = generateMockClothesItems(20, "女裝");
-    homeData.menClothes.value = generateMockClothesItems(20, "男裝");
-    homeData.accessories.value = generateMockClothesItems(20, "配件");
+    final List<dynamic> productsMenJson = await getProducts(ApiConstant.men);
+    final List<Product> productsMen = productsMenJson
+        .map((jsonProduct) => Product.fromJson(jsonProduct))
+        .toList();
+    homeData.productsMen.value = productsMen;
+
+    final List<dynamic> productsAccessoriesJson = await getProducts(ApiConstant.accessories);
+    final List<Product> productsAccessories = productsAccessoriesJson
+        .map((jsonProduct) => Product.fromJson(jsonProduct))
+        .toList();
+    homeData.productsAccessories.value = productsAccessories;
   }
 
-  void addClothesItem(ClothesItem clothesItem) {
-    cart.addClothesItem(clothesItem);
+  void addProduct(Product product) {
+    cart.addProduct(product);
   }
 
-  void removeClothesItem(ClothesItem clothesItem) {
-    cart.removeClothesItem(clothesItem);
+  void removeProduct(Product product) {
+    cart.removeProduct(product);
   }
 
   void clearClothesItems() {
-    cart.clearClothesItems();
+    cart.clearProducts();
   }
 }
