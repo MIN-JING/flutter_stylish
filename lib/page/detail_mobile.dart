@@ -79,7 +79,7 @@ class _DetailMobileState extends State<DetailMobile> {
   Widget buildProductImage() {
     return SizedBox(
       height: 500,
-      child: Image.asset(
+      child: Image.network(
         widget.product.main_image,
         height: double.infinity,
         width: double.infinity,

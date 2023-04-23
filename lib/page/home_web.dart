@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../model/home_data.dart';
+import '../model/product.dart';
 import '../model/product_category.dart';
 import 'detail.dart';
 
@@ -44,50 +45,53 @@ class _HomeWebState extends State<HomeWeb> {
                   style: const TextStyle(color: Colors.black),
                 ),
               ),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: category.products.value.length,
-                itemBuilder: (context, index) {
-                  final product = category.products.value[index];
-                  return GestureDetector(
-                    onTap: () {
-                      log('Item $index clicked');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailPage(
-                              title: "商品細節",
-                              isMobile: widget.isMobile,
-                              product: product),
+              ValueListenableBuilder<List<Product>>(
+                valueListenable: category.products,
+                builder: (context, products, child) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          log('Item $index clicked');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                  title: "商品細節",
+                                  isMobile: widget.isMobile,
+                                  product: products[index]),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Image.network(
+                                  products[index].main_image,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(products[index].title),
+                                    Text(products[index].price.toString()),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     },
-                    child: Card(
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Image.asset(
-                              product.main_image,
-                              width: 100,
-                              height: 100,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(product.title),
-                                Text(product.price.toString()),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   );
-                },
-              ),
+                })
             ],
           ),
         );

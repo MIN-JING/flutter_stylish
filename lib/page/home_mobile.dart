@@ -50,14 +50,13 @@ class _HomeMobileState extends State<HomeMobile> {
               const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
               ValueListenableBuilder<List<Product>>(
                 valueListenable: category.products,
-                builder: (context, clothesItems, child) {
+                builder: (context, products, child) {
                   return ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: clothesItems.length,
+                      itemCount: products.length,
                       itemBuilder: (context, index) {
-                        final clothesItem = clothesItems[index];
                         return GestureDetector(
                             onTap: () {
                               log('Item $index clicked');
@@ -67,7 +66,7 @@ class _HomeMobileState extends State<HomeMobile> {
                                   builder: (context) => DetailPage(
                                     title: "商品細節",
                                     isMobile: widget.isMobile,
-                                    product: clothesItem,
+                                    product: products[index],
                                   ),
                                 ),
                               );
@@ -77,8 +76,8 @@ class _HomeMobileState extends State<HomeMobile> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Image.asset(
-                                          clothesItem.main_image,
+                                        Image.network(
+                                          products[index].main_image,
                                           width: 100,
                                           height: 100,
                                         ),
@@ -88,8 +87,8 @@ class _HomeMobileState extends State<HomeMobile> {
                                             Column(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: <Widget>[
-                                                Text(clothesItem.title),
-                                                Text(clothesItem.price.toString())
+                                                Text(products[index].title),
+                                                Text(products[index].price.toString())
                                               ],
                                             )
                                           ],
