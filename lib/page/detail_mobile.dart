@@ -55,6 +55,7 @@ class _DetailMobileState extends State<DetailMobile> {
 
     _receiveStringFromAndroid();
     _sendStringToAndroid('Hello from Jim Flutter App');
+    _inputCreditCard();
   }
 
   @override
@@ -190,7 +191,24 @@ Future<void> _sendStringToAndroid(String stringToSend) async {
   }
 }
 
+Future<void> _inputCreditCard() async {
+  String message;
 
+  try {
+    final String result = await platform.invokeMethod('tappay');
+    message = result;
+  } on PlatformException catch (e) {
+    message = e.message ?? '';
+  }
+
+  if (kDebugMode) {
+    print('inputCreditCard message = $message');
+  }
+
+  // setState(() {
+  //   _tappayMessage = message;
+  // });
+}
 
 // class _DetailMobileState extends State<DetailMobile> {
 //   void _addItemToCart() {
