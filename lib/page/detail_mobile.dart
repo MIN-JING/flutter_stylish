@@ -54,6 +54,7 @@ class _DetailMobileState extends State<DetailMobile> {
     _controller = TextEditingController(text: _quantity.toString());
 
     _receiveStringFromAndroid();
+    _sendStringToAndroid('Hello from Jim Flutter App');
   }
 
   @override
@@ -178,6 +179,17 @@ Future<void> _receiveStringFromAndroid() async {
     print(stringValue);
   }
 }
+
+Future<void> _sendStringToAndroid(String stringToSend) async {
+  try {
+    await platform.invokeMethod('sendString', {'stringValue': stringToSend});
+  } on PlatformException catch (e) {
+    if (kDebugMode) {
+      print("Failed to send string: '${e.message}'.");
+    }
+  }
+}
+
 
 
 // class _DetailMobileState extends State<DetailMobile> {
