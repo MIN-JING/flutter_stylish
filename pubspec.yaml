@@ -48,6 +48,9 @@ dependencies:
   flutter_bloc: ^8.1.2
   bloc: ^8.1.1
 
+  # 付款套件
+  #flutter_tappay: ^0.3.0+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
