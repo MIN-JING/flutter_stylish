@@ -1,11 +1,15 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import '../bloc/application_bloc.dart';
 import '../model/product.dart';
 import 'cart_mobile.dart';
+
+const platform = MethodChannel('com.example.myapp/string');
 
 class DetailMobile extends StatefulWidget {
   final Product product;
@@ -16,6 +20,7 @@ class DetailMobile extends StatefulWidget {
 }
 
 class _DetailMobileState extends State<DetailMobile> {
+
   void _addItemToCart() {
     setState(() {
       Provider.of<ApplicationBloc>(context, listen: false)
@@ -47,6 +52,8 @@ class _DetailMobileState extends State<DetailMobile> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: _quantity.toString());
+
+    _receiveStringFromAndroid();
   }
 
   @override
@@ -155,6 +162,20 @@ class _DetailMobileState extends State<DetailMobile> {
         ),
       ],
     );
+  }
+}
+
+Future<void> _receiveStringFromAndroid() async {
+  String stringValue;
+
+  try {
+    stringValue = await platform.invokeMethod('getString');
+  } on PlatformException catch (e) {
+    stringValue = "Failed to get string: '${e.message}'.";
+  }
+
+  if (kDebugMode) {
+    print(stringValue);
   }
 }
 
