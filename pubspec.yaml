@@ -48,8 +48,9 @@ dependencies:
   flutter_bloc: ^8.1.2
   bloc: ^8.1.1
 
-  # 付款套件
-  #flutter_tappay: ^0.3.0+2
+  # google 地圖
+  google_maps_flutter: ^2.2.5
+  google_maps_flutter_web: ^0.4.0+8
 
 dev_dependencies:
   flutter_test:

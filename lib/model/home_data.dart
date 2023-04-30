@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_minjing_stylish/model/product.dart';
 
-import 'clothes.dart';
 import 'campaign.dart';
 import 'hot.dart';
 

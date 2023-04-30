@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/campaign.dart';
-import 'package:flutter_minjing_stylish/network/api_constant.dart';
 
 import '../model/home_data.dart';
 import '../model/product_category.dart';
 import '../page/home_mobile.dart';
 import '../page/home_web.dart';
+import 'map_google.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -71,6 +71,24 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
+            TextButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("點擊地圖按鈕");
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapGooglePage(
+                        title: "地圖",
+                        isMobile: isMobile,
+                      ),
+                    ),
+                  );
+                },
+                style: TextButton.styleFrom(backgroundColor: Colors.white),
+                child: const Text("地圖", style: TextStyle(color: Colors.black))),
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
             isMobile
               ? HomeMobile(

@@ -65,6 +65,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.example.flutter_minjing_stylish'
 }
 
 flutter {
