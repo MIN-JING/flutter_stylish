@@ -13,4 +13,5 @@ class ApiConstant {
   static const String women = 'women';
   static const String men = 'men';
   static const String accessories = 'accessories';
+  static const String googleMapKey = 'AIzaSyBH6m80brK5cn_Fk29aaAZgpPNShcGhPxs';
 }
