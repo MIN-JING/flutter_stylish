@@ -19,19 +19,23 @@ class _MapGooglePageState extends State<MapGooglePage> {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {}; // Create a Set to store the polyLines
 
-  final LatLng _center = const LatLng(22.635741723478922, 120.27541918038403);
-  final MarkerId _attractionMarkerId = const MarkerId('zoo');
+  final LatLng _start = const LatLng(22.635741723478922, 120.27541918038403);
+  final MarkerId _startMarkerId = const MarkerId('start');
+
+  final LatLng _end = const LatLng(22.99201966036417, 120.20244809791338);
+  final MarkerId _endMarkerId = const MarkerId('end');
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    _addMarker();
+    _addStartMarker();
+    _addEndMarker();
     _loadDirections();
   }
 
-  void _addMarker() {
+  void _addStartMarker() {
     final marker = Marker(
-      markerId: const MarkerId('zoo'),
-      position: _center,
+      markerId: _startMarkerId,
+      position: _start,
       infoWindow: const InfoWindow(
         title: '高雄市立壽山動物園',
         snippet: '80444高雄市鼓山區萬壽路350號',
@@ -44,13 +48,33 @@ class _MapGooglePageState extends State<MapGooglePage> {
 
     // Show the InfoWindow after a short delay
     Future.delayed(const Duration(milliseconds: 100)).then((_) {
-      mapController.showMarkerInfoWindow(_attractionMarkerId);
+      mapController.showMarkerInfoWindow(_startMarkerId);
+    });
+  }
+
+  void _addEndMarker() {
+    final marker = Marker(
+      markerId: _endMarkerId,
+      position: _end,
+      infoWindow: const InfoWindow(
+        title: '林百貨',
+        snippet: '700台南市中西區忠義路二段63號',
+      ),
+    );
+
+    setState(() {
+      _markers.add(marker);
+    });
+
+    // Show the InfoWindow after a short delay
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
+      mapController.showMarkerInfoWindow(_endMarkerId);
     });
   }
 
   void _loadDirections() async {
-    LatLng start = _center; // Starting location
-    const end = LatLng(22.99201966036417, 120.20244809791338); // Ending location (replace with desired coordinates)
+    LatLng start = _start; // Starting location
+    LatLng end = _end; // Ending location (replace with desired coordinates)
 
     final route = await getDirections(start, end);
 
@@ -62,8 +86,8 @@ class _MapGooglePageState extends State<MapGooglePage> {
     );
 
     setState(() {
-      _markers.add(Marker(markerId: const MarkerId("start"), position: start)); // Add a marker for the starting location
-      _markers.add(const Marker(markerId: MarkerId("end"), position: end)); // Add a marker for the ending location
+      _markers.add(Marker(markerId: _startMarkerId, position: start)); // Add a marker for the starting location
+      _markers.add(Marker(markerId: _endMarkerId, position: end)); // Add a marker for the ending location
       _polyLines.add(polyline); // Add the polyline to the map
     });
   }
@@ -92,7 +116,7 @@ class _MapGooglePageState extends State<MapGooglePage> {
                       child: GoogleMap(
                         onMapCreated: _onMapCreated,
                         initialCameraPosition: CameraPosition(
-                          target: _center,
+                          target: _start,
                           zoom: 11.0,
                         ),
                         markers: _markers,

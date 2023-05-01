@@ -71,10 +71,13 @@ Future<List<dynamic>> getProducts(String category) async {
 }
 
 Future<List<LatLng>> getDirections(LatLng start, LatLng end) async {
-  print('start.latitude: ${start.latitude}');
-  print('start.longitude: ${start.longitude}');
-  print('end.latitude: ${end.latitude}');
-  print('end.longitude: ${end.longitude}');
+  if (kDebugMode) {
+    print('start.latitude: ${start.latitude}');
+    print('start.longitude: ${start.longitude}');
+    print('end.latitude: ${end.latitude}');
+    print('end.longitude: ${end.longitude}');
+  }
+
 
   final url =
       "https://maps.googleapis.com/maps/api/directions/json?origin=${start.latitude},${start.longitude}&destination=${end.latitude},${end.longitude}&key=${ApiConstant.googleMapKey}";
@@ -88,9 +91,8 @@ Future<List<LatLng>> getDirections(LatLng start, LatLng end) async {
       final polylinePoints = PolylinePoints();
       final pointLatLngList = polylinePoints.decodePolyline(points);
 
-      print('API response: ${jsonResponse.toString()}');
-
       if (kDebugMode) {
+        print('API response: ${jsonResponse.toString()}');
         print('getDirections: ${response.data.toString()}');
       }
 
@@ -101,7 +103,9 @@ Future<List<LatLng>> getDirections(LatLng start, LatLng end) async {
       // Convert the list of PointLatLng objects to a list of LatLng objects
       return pointLatLngList.map((point) => LatLng(point.latitude, point.longitude)).toList();
     } else {
-      print('API response: ${response.data.toString()}');
+      if (kDebugMode) {
+        print('API response: ${response.data.toString()}');
+      }
       throw Exception('Error getting directions');
     }
   } catch (e) {
