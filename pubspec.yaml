@@ -55,6 +55,12 @@ dependencies:
   # 地圖
   flutter_polyline_points: ^1.0.0
 
+  # WebRTC
+  flutter_webrtc: ^0.9.27
+
+  # Firebase
+  firebase_core: ^1.10.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
