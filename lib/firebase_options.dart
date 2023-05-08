@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '883271663429',
     projectId: 'flutter-stylish-webrtc',
     authDomain: 'flutter-stylish-webrtc.firebaseapp.com',
+    databaseURL: 'https://flutter-stylish-webrtc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'flutter-stylish-webrtc.appspot.com',
     measurementId: 'G-Y5J6T7CWVL',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:883271663429:android:f9b8aea7f05170727d482c',
     messagingSenderId: '883271663429',
     projectId: 'flutter-stylish-webrtc',
+    databaseURL: 'https://flutter-stylish-webrtc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'flutter-stylish-webrtc.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:883271663429:ios:0feead69a96c66917d482c',
     messagingSenderId: '883271663429',
     projectId: 'flutter-stylish-webrtc',
+    databaseURL: 'https://flutter-stylish-webrtc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'flutter-stylish-webrtc.appspot.com',
     iosClientId: '883271663429-mouijlmm7n6n4apfl2kjme0d8omnukra.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterMinjingStylish',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:883271663429:ios:214c21f6991dee917d482c',
     messagingSenderId: '883271663429',
     projectId: 'flutter-stylish-webrtc',
+    databaseURL: 'https://flutter-stylish-webrtc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'flutter-stylish-webrtc.appspot.com',
     iosClientId: '883271663429-8p10ds04tc5o88q18o8ab0ctckdo86ac.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterMinjingStylish.RunnerTests',

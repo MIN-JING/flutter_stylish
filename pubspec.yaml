@@ -65,6 +65,7 @@ dependencies:
   cloud_functions: ^3.1.2
   firebase_storage: ^10.2.6
   firebase_messaging: ^11.2.7
+  firebase_database: ^7.1.0
 
   # 隨機產生聊天室 Id
   uuid: ^3.0.5

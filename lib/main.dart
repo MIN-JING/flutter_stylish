@@ -8,10 +8,13 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase with the default options for the current platform
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // Only initialize Firebase if it hasn't been initialized before
+  if (Firebase.apps.isEmpty) {
+    // Initialize Firebase with the default options for the current platform
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   runApp(Provider<ApplicationBloc>(
     create: (_) => ApplicationBloc(),

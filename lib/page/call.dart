@@ -1,17 +1,18 @@
+import 'dart:developer';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class CallPage extends StatefulWidget {
-  final String roomId;
   final String title;
   final bool isMobile;
 
   const CallPage({
     super.key,
-    required this.roomId,
     required this.title,
     required this.isMobile
   });
@@ -23,16 +24,18 @@ class CallPage extends StatefulWidget {
 class _CallPageState extends State<CallPage> {
   RTCPeerConnection? _peerConnection;
   MediaStream? _localStream;
+  RTCDataChannel? _dataChannel;
   final _localRenderer = RTCVideoRenderer();
   final _remoteRenderer = RTCVideoRenderer();
+  final _roomIdController = TextEditingController();
   final _messageController = TextEditingController();
-  RTCDataChannel? _dataChannel;
+  final _receivedMessageController = TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
     initRenderers();
-    _initCall();
   }
 
   initRenderers() async {
@@ -41,11 +44,13 @@ class _CallPageState extends State<CallPage> {
   }
 
   _initCall() async {
+    debugPrint('initializing call...');
     await _requestPermissions();
     await _createPeerConnection();
   }
 
   _createPeerConnection() async {
+    debugPrint('creating peer connection...');
     // Replace these with your STUN/TURN server URLs if you have your own
     Map<String, dynamic> configuration = {
       'iceServers': [
@@ -53,8 +58,7 @@ class _CallPageState extends State<CallPage> {
       ]
     };
 
-    _peerConnection =
-    await createPeerConnection(configuration, {'optional': []});
+    _peerConnection = await createPeerConnection(configuration, {'optional': []});
 
     // Add event listeners
     _peerConnection!.onIceCandidate = _onIceCandidate;
@@ -80,8 +84,46 @@ class _CallPageState extends State<CallPage> {
     _createDataChannel();
   }
 
+  _saveCallData() async {
+    // Get the room ID from the TextField controller
+    final roomId = _roomIdController.text;
+
+    // Save call data to the Realtime Database
+    final DatabaseReference callRef = FirebaseDatabase.instance.reference()
+        .child('calls').child(roomId);
+    await callRef.set({
+      'startedAt': DateTime.now().toUtc().toString(),
+    });
+
+    // Listen for changes to the call data
+    callRef.onValue.listen((event) {
+      if (event.snapshot.value != null && event.snapshot.value['startedAt'] != null) {
+        // Join the call
+        _initCall();
+      } else {
+        // Display an error message or return to the previous page
+      }
+    });
+
+    // Save the room ID to the messages node in Firebase Realtime Database
+    final DatabaseReference messagesRef = FirebaseDatabase.instance.reference()
+        .child('messages').child(roomId);
+    messagesRef.push().set({
+      'text': 'RoomId -$roomId- joined the chat',
+      'timestamp': DateTime.now().toUtc().toString(),
+    });
+  }
+
   _onIceCandidate(RTCIceCandidate candidate) {
-    // Send ICE candidate to the other user through your signaling server
+    final roomId = _roomIdController.text;
+
+    // Send ICE candidate to the other user through Firebase Realtime Database
+    DatabaseReference iceCandidateRef = FirebaseDatabase.instance.reference()
+        .child('iceCandidates').push();
+    iceCandidateRef.set({
+      'roomId': roomId,
+      'candidate': candidate.toMap() // convert the RTCIceCandidate to a map for serialization
+    });
   }
 
   _onAddStream(MediaStream stream) {
@@ -90,31 +132,36 @@ class _CallPageState extends State<CallPage> {
   }
 
   _createDataChannel() async {
+    debugPrint("_createDataChannel");
     RTCDataChannelInit dataChannelDict = RTCDataChannelInit();
     _dataChannel = await _peerConnection!.createDataChannel('textMessages', dataChannelDict);
     _dataChannel!.onMessage = (RTCDataChannelMessage message) {
+      debugPrint("_dataChannel!.onMessage");
       // Handle received messages
-      if (kDebugMode) {
-        print('Received message: ${message.text}');
-      }
+      debugPrint('_Received message: ${message.text}');
+
+      setState(() {
+        _receivedMessageController.text = message.text;
+      });
     };
   }
 
   _sendMessage() async {
     if (_dataChannel != null && _messageController.text.isNotEmpty) {
       String messageText = _messageController.text;
-      if (kDebugMode) {
-        print(messageText);
-      }
+      log('messageText: $messageText');
+
       if (messageText.startsWith('/ai ')) {
         String prompt = messageText.substring(4); // Remove the '/ai ' command
         String chatGPTResponse = await _getChatGPTResponse(prompt);
         messageText = 'AI Assistant: $chatGPTResponse';
-        if (kDebugMode) {
-          print(messageText);
-        }
+        log('messageText AI Assistant: $messageText');
+        setState(() {
+          _receivedMessageController.text = messageText;
+        });
       }
-      _dataChannel!.send(RTCDataChannelMessage(_messageController.text));
+
+      _dataChannel!.send(RTCDataChannelMessage(messageText));
       _messageController.clear();
     }
   }
@@ -147,7 +194,7 @@ class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Call ${widget.roomId}')),
+        appBar: AppBar(title: Text('Call Room: ${_roomIdController.text}')),
         body: Column(
           children: [
             Expanded(
@@ -176,6 +223,30 @@ class _CallPageState extends State<CallPage> {
                   );
                 })
             ),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Received message:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _receivedMessageController.text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
@@ -193,8 +264,23 @@ class _CallPageState extends State<CallPage> {
                 ],
               ),
             ),
-          ],
-        )
-    );
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _roomIdController,
+                      decoration: const InputDecoration(hintText: 'Room ID'),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.connect_without_contact),
+                    onPressed: _saveCallData,
+                  ),
+                ],
+              ),
+            ),
+    ]));
   }
 }

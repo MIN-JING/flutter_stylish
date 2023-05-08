@@ -31,8 +31,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CallPage(
-          roomId: roomId,
+        builder: (context) => const CallPage(
           title: 'Call Page',
           isMobile: true, // set this value based on your requirements
         ),
