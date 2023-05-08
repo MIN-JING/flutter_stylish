@@ -29,14 +29,19 @@ async function callChatGPT(prompt) {
 
     // Define body here
     const body = {
-      "model": "text-davinci-002",
-      "prompt": prompt,
-      "temperature": 0.7,
-      "max_tokens": 50,
+      "model": "text-davinci-003",
+      "prompt": "Say this is a test",
+      "max_tokens": 7,
+      "temperature": 0,
+      "top_p": 1,
+      "n": 1,
+      "stream": false,
+      "logprobs": null,
+      "stop": "\n",
     };
 
     const response = await axios.post(
-        "https://api.openai.com/v1/engines/davinci-codex/completions",
+        "https://api.openai.com/v1/completions",
         body,
         {headers},
     );
