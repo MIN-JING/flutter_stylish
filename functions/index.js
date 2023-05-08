@@ -11,6 +11,7 @@ exports.chatGPT = functions.https.onCall(async (data, context) => {
 
   try {
     const message = await callChatGPT(prompt);
+    console.log("001 ChatGPT API response message:", message);
     return message.trim();
   } catch (error) {
     console.error("Error calling ChatGPT API:",
@@ -30,14 +31,9 @@ async function callChatGPT(prompt) {
     // Define body here
     const body = {
       "model": "text-davinci-003",
-      "prompt": "Say this is a test",
+      "prompt": prompt,
       "max_tokens": 7,
       "temperature": 0,
-      "top_p": 1,
-      "n": 1,
-      "stream": false,
-      "logprobs": null,
-      "stop": "\n",
     };
 
     const response = await axios.post(
@@ -54,12 +50,13 @@ async function callChatGPT(prompt) {
       n: 1,
       stop: null,
       temperature: 0.7,
-    }, null, 2)); // Log the request body
+    }, null, 2));
 
     console.log("ChatGPT API response:",
-        JSON.stringify(response.data, null, 2)); // Log the API response
+        JSON.stringify(response.data, null, 2));
 
     const message = response.data.choices[0].text;
+    console.log("002 ChatGPT API response message:", message);
     return message.trim();
   } catch (error) {
     console.error("Full error response:", JSON.stringify(
