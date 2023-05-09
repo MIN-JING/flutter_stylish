@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/model/campaign.dart';
+import 'package:uuid/uuid.dart';
 
 import '../model/home_data.dart';
 import '../model/product_category.dart';
 import '../page/home_mobile.dart';
 import '../page/home_web.dart';
+import 'call.dart';
 import 'map_google.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +25,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void _navigateToCallPage() {
+    const uuid = Uuid();
+    final roomId = uuid.v4();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CallPage(
+          title: 'Call Page',
+          isMobile: true, // set this value based on your requirements
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -89,6 +105,16 @@ class _HomePageState extends State<HomePage> {
                 },
                 style: TextButton.styleFrom(backgroundColor: Colors.white),
                 child: const Text("地圖", style: TextStyle(color: Colors.black))),
+            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
+            TextButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("點擊 WebRTC 按鈕");
+                  }
+                  _navigateToCallPage();
+                },
+                style: TextButton.styleFrom(backgroundColor: Colors.white),
+                child: const Text("即時通訊", style: TextStyle(color: Colors.black))),
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
             isMobile
               ? HomeMobile(

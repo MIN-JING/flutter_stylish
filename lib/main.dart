@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/bloc/application_bloc.dart';
 import 'package:flutter_minjing_stylish/page/home.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Only initialize Firebase if it hasn't been initialized before
+  if (Firebase.apps.isEmpty) {
+    // Initialize Firebase with the default options for the current platform
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
   runApp(Provider<ApplicationBloc>(
     create: (_) => ApplicationBloc(),
     child: MyApp(

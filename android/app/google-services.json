@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "883271663429",
+    "firebase_url": "https://flutter-stylish-webrtc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "flutter-stylish-webrtc",
+    "storage_bucket": "flutter-stylish-webrtc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883271663429:android:f9b8aea7f05170727d482c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_minjing_stylish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883271663429-e1drjruknf0itvqsf06j4fdce7gvpjfj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqZnGIOOiQUUQZJSUSwEyBnU7zcajgJiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883271663429-e1drjruknf0itvqsf06j4fdce7gvpjfj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "883271663429-8p10ds04tc5o88q18o8ab0ctckdo86ac.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterMinjingStylish.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

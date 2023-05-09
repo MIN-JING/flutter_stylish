@@ -55,6 +55,28 @@ dependencies:
   # 地圖
   flutter_polyline_points: ^1.0.0
 
+  # WebRTC
+  flutter_webrtc: ^0.9.27
+
+  # Firebase
+  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.9
+  cloud_firestore: ^3.1.7
+  cloud_functions: ^3.1.2
+  firebase_storage: ^10.2.6
+  firebase_messaging: ^11.2.7
+  firebase_database: ^7.1.0
+
+  # 隨機產生聊天室 Id
+  uuid: ^3.0.5
+
+  # 管理 App 取得權限
+  permission_handler: ^10.2.0
+
+dependency_overrides:
+  # 解決 firebase 依賴項衝突
+  firebase_core_platform_interface: 4.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
