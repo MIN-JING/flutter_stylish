@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +28,6 @@ class _CallPageState extends State<CallPage> {
   final _roomIdController = TextEditingController();
   final _messageController = TextEditingController();
   final _receivedMessageController = TextEditingController();
-  // global variable to store the peer connection instance
-  static RTCPeerConnection? _globalPeerConnection;
-
 
   @override
   void initState() {
@@ -43,50 +38,6 @@ class _CallPageState extends State<CallPage> {
   initRenderers() async {
     await _localRenderer.initialize();
     await _remoteRenderer.initialize();
-  }
-
-  _initCall() async {
-    debugPrint('initializing call...');
-    await _requestPermissions();
-    await _createPeerConnection();
-  }
-
-  _createPeerConnection() async {
-    debugPrint('creating peer connection...');
-    // Replace these with your STUN/TURN server URLs if you have your own
-    Map<String, dynamic> configuration = {
-      'iceServers': [
-        {'url': 'stun:stun.l.google.com:19302'},
-      ]
-    };
-
-    _peerConnection = await createPeerConnection(configuration, {'optional': []});
-    _globalPeerConnection = _peerConnection;
-
-    // Add event listeners
-    _peerConnection!.onIceCandidate = _onIceCandidate;
-    _peerConnection!.onAddStream = _onAddStream;
-
-    // Request camera and microphone access and create a local stream
-    _localStream = await navigator.mediaDevices.getUserMedia({
-      'audio': true,
-      'video': {
-        'width': 640,
-        'height': 480,
-      },
-    });
-
-    // Add the local stream to the peer connection and display it
-    _localStream!.getTracks().forEach((track) {
-      _peerConnection!.addTrack(track, _localStream!);
-    });
-
-    _localRenderer.srcObject = _localStream;
-
-    // Create the data channel for text messages
-    _createDataChannel();
-
-    // _savePeerConnection();
   }
 
   _saveCallData() async {
@@ -105,15 +56,6 @@ class _CallPageState extends State<CallPage> {
       if (event.snapshot.value != null && event.snapshot.value['startedAt'] != null) {
         // Join the call
         _initCall();
-
-        // String remotePeerConnectionString = event.snapshot.value['peerConnection'];
-        // if (remotePeerConnectionString == _globalPeerConnection.toString()) {
-        //   // The two devices are connected with the same peer connection
-        //   debugPrint('Connected with the same peer connection!');
-        // } else {
-        //   // The two devices are not connected with the same peer connection
-        //   debugPrint('Connected with different peer connections!');
-        // }
       } else {
         // Display an error message or return to the previous page
         showDialog(
@@ -145,19 +87,104 @@ class _CallPageState extends State<CallPage> {
     });
   }
 
+  _initCall() async {
+    debugPrint('initializing call...');
+    await _requestPermissions();
+    await _createPeerConnection();
+
+    if (_peerConnection != null) {
+      _listenForIceCandidates();
+    }
+  }
+
+  _createPeerConnection() async {
+    debugPrint('creating peer connection...');
+    // Replace these with your STUN/TURN server URLs if you have your own
+    Map<String, dynamic> configuration = {
+      'iceServers': [
+        {'url': 'stun:stun.l.google.com:19302'},
+      ]
+    };
+
+    _peerConnection = await createPeerConnection(configuration, {'optional': []});
+    debugPrint('Peer connection created: $_peerConnection');
+    // Add event listeners
+    _peerConnection!.onIceCandidate = _onIceCandidate;
+    _peerConnection!.onAddStream = _onAddStream;
+
+    // Request camera and microphone access and create a local stream
+    _localStream = await navigator.mediaDevices.getUserMedia({
+      'audio': true,
+      'video': {
+        'width': 640,
+        'height': 480,
+      },
+    });
+    debugPrint('Local stream created: $_localStream');
+    // Add the local stream to the peer connection and display it
+    _localStream!.getTracks().forEach((track) {
+      _peerConnection!.addTrack(track, _localStream!);
+    });
+
+    _localRenderer.srcObject = _localStream;
+
+    // Create the data channel for text messages
+    _createDataChannel();
+  }
+
   _onIceCandidate(RTCIceCandidate candidate) {
+    debugPrint('onIceCandidate');
+    debugPrint('Got ICE candidate: $candidate');
+
     final roomId = _roomIdController.text;
 
-    // Send ICE candidate to the other user through Firebase Realtime Database
-    DatabaseReference iceCandidateRef = FirebaseDatabase.instance.reference()
-        .child('iceCandidates').push();
-    iceCandidateRef.set({
-      'roomId': roomId,
-      'candidate': candidate.toMap() // convert the RTCIceCandidate to a map for serialization
+    // Create an ICE candidate object with the candidate information
+    final iceCandidate = {
+      'candidate': candidate.candidate,
+      'sdpMLineIndex': candidate.sdpMLineIndex,
+      'sdpMid': candidate.sdpMid,
+    };
+
+    // Save the ICE candidate to Firebase Realtime Database
+    final DatabaseReference iceCandidateRef = FirebaseDatabase.instance.reference()
+        .child('calls').child(roomId).child('iceCandidates');
+    iceCandidateRef.push().set(iceCandidate).then((_) {
+      debugPrint('Ice candidate saved successfully!');
+    }).catchError((error) {
+      debugPrint('Error saving ice candidate: $error');
+    });
+
+    // Debug prints to verify that _onIceCandidate is being called
+    debugPrint('ICE candidate gathered: $candidate');
+    debugPrint('ICE candidate saved to database: $iceCandidate');
+  }
+
+  void _listenForIceCandidates() {
+    debugPrint('_listenForIceCandidates');
+
+    final roomId = _roomIdController.text;
+    DatabaseReference iceCandidatesRef = FirebaseDatabase.instance.reference()
+        .child('calls').child(roomId).child('iceCandidates');
+
+    iceCandidatesRef.onChildAdded.listen((event) {
+      // Get the ICE candidate data from the event
+      var iceCandidateData = event.snapshot.value;
+
+      debugPrint('listen iceCandidateData: $iceCandidateData');
+      // Create an RTCIceCandidate object from the ICE candidate data
+      var iceCandidate = RTCIceCandidate(
+        iceCandidateData['candidate'],
+        iceCandidateData['sdpMid'],
+        iceCandidateData['sdpMLineIndex'],
+      );
+
+      // Add the ICE candidate to the peer connection object
+      _peerConnection!.addCandidate(iceCandidate);
     });
   }
 
   _onAddStream(MediaStream stream) {
+    debugPrint('Remote stream added: $stream');
     // Set the remote renderer's source to the received stream
     _remoteRenderer.srcObject = stream;
   }
@@ -204,18 +231,6 @@ class _CallPageState extends State<CallPage> {
       _dataChannel!.send(RTCDataChannelMessage(messageText));
       _messageController.clear();
     }
-  }
-
-  _savePeerConnection() async {
-    final roomId = _roomIdController.text;
-
-    // Save the peer connection object to Firebase Realtime Database
-    final DatabaseReference callRef = FirebaseDatabase.instance.reference()
-        .child('calls').child(roomId);
-    await callRef.set({
-      'startedAt': DateTime.now().toUtc().toString(),
-      'peerConnection': _globalPeerConnection.toString() // Convert the peer connection object to a string for serialization
-    });
   }
 
   Future<void> _requestPermissions() async {
