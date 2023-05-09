@@ -30,6 +30,8 @@ class _CallPageState extends State<CallPage> {
   final _roomIdController = TextEditingController();
   final _messageController = TextEditingController();
   final _receivedMessageController = TextEditingController();
+  // global variable to store the peer connection instance
+  static RTCPeerConnection? _globalPeerConnection;
 
 
   @override
@@ -59,6 +61,7 @@ class _CallPageState extends State<CallPage> {
     };
 
     _peerConnection = await createPeerConnection(configuration, {'optional': []});
+    _globalPeerConnection = _peerConnection;
 
     // Add event listeners
     _peerConnection!.onIceCandidate = _onIceCandidate;
@@ -82,6 +85,8 @@ class _CallPageState extends State<CallPage> {
 
     // Create the data channel for text messages
     _createDataChannel();
+
+    // _savePeerConnection();
   }
 
   _saveCallData() async {
@@ -100,8 +105,34 @@ class _CallPageState extends State<CallPage> {
       if (event.snapshot.value != null && event.snapshot.value['startedAt'] != null) {
         // Join the call
         _initCall();
+
+        // String remotePeerConnectionString = event.snapshot.value['peerConnection'];
+        // if (remotePeerConnectionString == _globalPeerConnection.toString()) {
+        //   // The two devices are connected with the same peer connection
+        //   debugPrint('Connected with the same peer connection!');
+        // } else {
+        //   // The two devices are not connected with the same peer connection
+        //   debugPrint('Connected with different peer connections!');
+        // }
       } else {
         // Display an error message or return to the previous page
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Room ID not found. Please enter a valid Room ID.'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
     });
 
@@ -135,6 +166,15 @@ class _CallPageState extends State<CallPage> {
     debugPrint("_createDataChannel");
     RTCDataChannelInit dataChannelDict = RTCDataChannelInit();
     _dataChannel = await _peerConnection!.createDataChannel('textMessages', dataChannelDict);
+
+    _dataChannel!.onDataChannelState = (RTCDataChannelState state) {
+      if (state == RTCDataChannelState.RTCDataChannelOpen) {
+        debugPrint('Data channel is open!');
+      } else {
+        debugPrint('Data channel is closed!');
+      }
+    };
+
     _dataChannel!.onMessage = (RTCDataChannelMessage message) {
       debugPrint("_dataChannel!.onMessage");
       // Handle received messages
@@ -149,13 +189,13 @@ class _CallPageState extends State<CallPage> {
   _sendMessage() async {
     if (_dataChannel != null && _messageController.text.isNotEmpty) {
       String messageText = _messageController.text;
-      log('messageText: $messageText');
+      debugPrint('messageText: $messageText');
 
       if (messageText.startsWith('/ai ')) {
         String prompt = messageText.substring(4); // Remove the '/ai ' command
         String chatGPTResponse = await _getChatGPTResponse(prompt);
         messageText = 'AI Assistant: $chatGPTResponse';
-        log('messageText AI Assistant: $messageText');
+        debugPrint('messageText AI Assistant: $messageText');
         setState(() {
           _receivedMessageController.text = messageText;
         });
@@ -164,6 +204,18 @@ class _CallPageState extends State<CallPage> {
       _dataChannel!.send(RTCDataChannelMessage(messageText));
       _messageController.clear();
     }
+  }
+
+  _savePeerConnection() async {
+    final roomId = _roomIdController.text;
+
+    // Save the peer connection object to Firebase Realtime Database
+    final DatabaseReference callRef = FirebaseDatabase.instance.reference()
+        .child('calls').child(roomId);
+    await callRef.set({
+      'startedAt': DateTime.now().toUtc().toString(),
+      'peerConnection': _globalPeerConnection.toString() // Convert the peer connection object to a string for serialization
+    });
   }
 
   Future<void> _requestPermissions() async {
