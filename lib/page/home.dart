@@ -52,6 +52,46 @@ class _HomePageState extends State<HomePage> {
           "Stylish",
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+                Icons.remove_red_eye_sharp,
+                color: Colors.black
+            ),
+            onPressed: () {
+              // Perform action when the icon is tapped
+              print('Favorite icon tapped');
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+                Icons.chat_sharp,
+                color: Colors.black
+            ),
+            onPressed: () {
+              debugPrint("點擊 WebRTC 按鈕");
+              _navigateToCallPage();
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+                Icons.map_sharp,
+                color: Colors.black
+            ),
+            onPressed: () {
+              debugPrint("點擊地圖按鈕");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MapGooglePage(
+                    title: "地圖",
+                    isMobile: isMobile,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -87,34 +127,6 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            TextButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("點擊地圖按鈕");
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MapGooglePage(
-                        title: "地圖",
-                        isMobile: isMobile,
-                      ),
-                    ),
-                  );
-                },
-                style: TextButton.styleFrom(backgroundColor: Colors.white),
-                child: const Text("地圖", style: TextStyle(color: Colors.black))),
-            const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-            TextButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("點擊 WebRTC 按鈕");
-                  }
-                  _navigateToCallPage();
-                },
-                style: TextButton.styleFrom(backgroundColor: Colors.white),
-                child: const Text("即時通訊", style: TextStyle(color: Colors.black))),
             const Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
             isMobile
               ? HomeMobile(
