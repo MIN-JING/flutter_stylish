@@ -32,7 +32,7 @@ async function callChatGPT(prompt) {
     const body = {
       "model": "text-davinci-003",
       "prompt": prompt,
-      "max_tokens": 7,
+      "max_tokens": 50,
       "temperature": 0,
     };
 

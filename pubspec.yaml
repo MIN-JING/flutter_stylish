@@ -73,6 +73,10 @@ dependencies:
   # 管理 App 取得權限
   permission_handler: ^10.2.0
 
+  # AR
+  #ar_flutter_plugin: ^0.7.3
+  arcore_flutter_plugin: ^0.1.0
+
 dependency_overrides:
   # 解決 firebase 依賴項衝突
   firebase_core_platform_interface: 4.5.1
