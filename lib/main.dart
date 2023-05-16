@@ -1,3 +1,4 @@
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_minjing_stylish/bloc/application_bloc.dart';
 import 'package:flutter_minjing_stylish/page/home.dart';
@@ -15,6 +16,11 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+
+  debugPrint('ARCORE IS AVAILABLE?');
+  debugPrint(await ArCoreController.checkArCoreAvailability());
+  debugPrint('\nAR SERVICES INSTALLED?');
+  debugPrint(await ArCoreController.checkIsArCoreInstalled());
 
   runApp(Provider<ApplicationBloc>(
     create: (_) => ApplicationBloc(),

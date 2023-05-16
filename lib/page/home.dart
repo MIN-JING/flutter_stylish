@@ -39,6 +39,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _navigateToARPage() {
+Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ARPage(
+          title: 'AR Page',
+          isMobile: true, // set this value based on your requirements
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -60,7 +72,8 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () {
               // Perform action when the icon is tapped
-              print('Favorite icon tapped');
+              debugPrint('Favorite icon tapped');
+              _navigateToARPage();
             },
           ),
           IconButton(
