@@ -73,9 +73,16 @@ dependencies:
   # 管理 App 取得權限
   permission_handler: ^10.2.0
 
-  # AR
-  #ar_flutter_plugin: ^0.7.3
-  arcore_flutter_plugin: ^0.1.0
+  # AR 套件
+  ar_flutter_plugin: ^0.7.3
+#  arcore_flutter_plugin: ^0.1.0
+#  arkit_plugin: ^1.0.6
+  vector_math: ^2.1.4
+  camera: ^0.9.4+5
+
+
+  # 解決 build APK 錯誤
+#  flutter_plugin_android_lifecycle: ^2.0.14
 
 dependency_overrides:
   # 解決 firebase 依賴項衝突

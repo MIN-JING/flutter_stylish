@@ -12,6 +12,7 @@ void main() async {
   if (Firebase.apps.isEmpty) {
     // Initialize Firebase with the default options for the current platform
     await Firebase.initializeApp(
+      name: "dev project",
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
