@@ -7,6 +7,7 @@ import '../model/home_data.dart';
 import '../model/product_category.dart';
 import '../page/home_mobile.dart';
 import '../page/home_web.dart';
+import 'ar.dart';
 import 'call.dart';
 import 'map_google.dart';
 
@@ -40,15 +41,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToARPage() {
-Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ARPage(
-          title: 'AR Page',
-          isMobile: true, // set this value based on your requirements
-        ),
-      ),
-    );
+    Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ARPage(
+              title: 'AR Page',
+              isMobile: true, // set this value based on your requirements
+            ),
+          ),
+        );
   }
 
   @override
