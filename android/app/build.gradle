@@ -76,6 +76,17 @@ flutter {
     source '../..'
 }
 
+//configurations.all {
+//    resolutionStrategy {
+//        eachDependency { DependencyResolveDetails details ->
+//            if (details.requested.group == 'org.jetbrains.kotlin' && details.requested.name == 'kotlin-gradle-plugin') {
+//                details.useVersion '1.7.10'
+//                details.because 'Required by project'
+//            }
+//        }
+//    }
+//}
+
 dependencies {
     implementation(name: 'tpdirect', ext: 'aar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
